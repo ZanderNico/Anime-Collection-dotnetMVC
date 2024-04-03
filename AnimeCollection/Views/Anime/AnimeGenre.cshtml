@@ -1,0 +1,26 @@
+﻿@model AnimeCollection.Models.Anime
+@using AnimeCollection.Models
+
+@{
+    ViewData["Title"] = "Add Genre/s to Anime";
+}
+
+<h1>Add Genre/s to @Model.Title</h1>
+
+<form asp-action="AnimeGenre" asp-controller="Anime" method="post">
+    @foreach (var genre in ViewBag.Genres as IEnumerable<Genre>)
+    {
+        // Check if the genre is already associated with the anime
+        if (!Model.AnimeGenres.Any(ag => ag.GenreId == genre.Id))
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="genre-@genre.Id" name="selectedGenres" value="@genre.Id">
+                <label class="form-check-label" for="genre-@genre.Id">@genre.Name</label>
+            </div>
+        }
+    }
+    <input type="hidden" name="animeId" value="@Model.Id" />
+    <button type="submit" class="btn btn-primary mt-3">Save Selected Genres</button>
+</form>
+
+   

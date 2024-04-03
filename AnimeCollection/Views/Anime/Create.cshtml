@@ -1,0 +1,53 @@
+﻿@using AnimeCollection.Data.Enum
+@using AnimeCollection.ViewModels
+@model CreateAnimeViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<form asp-action="Create" method="post" class="row g-3" enctype="multipart/form-data">
+    <h1 class="text-center text-primary">Add Anime</h1>
+    <div class="col-12">
+        <label asp-for="Title" class="form-label">Title</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Description" class="form-label">Description/Synopsis</label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Studio" class="form-label">Studio</label>
+        <input asp-for="Studio" class="form-control" />
+        <span asp-validation-for="Studio" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Episodes" class="form-label">Number of Episodes</label>
+        <input asp-for="Episodes" class="form-control" />
+        <span asp-validation-for="Episodes" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="DateAired" class="form-label">Date Aired</label>
+        <input asp-for="DateAired" class="form-control" type="date" />
+        <span asp-validation-for="DateAired" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Status" class="form-label">Status</label>
+        <select asp-for="Status" class="form-select" asp-items="@Html.GetEnumSelectList<AnimeStatus>()">
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+    <div class="col-md-2">
+        <div class="d-flex flex-column">
+            <label class="form-label">Upload Anime Picture</label>
+            <input type="file" name="PosterImage" class="form-control-file" />
+            <span asp-validation-for="PosterImage" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>

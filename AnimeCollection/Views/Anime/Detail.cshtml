@@ -1,0 +1,109 @@
+﻿@model Anime
+
+@{
+    // Retrieve genres from ViewData
+    var genres = ViewData["Genres"] as IEnumerable<Genre>;
+}
+
+<div class="main-container">
+    <nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+        <div class="container">
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+    </nav>
+    <section class="bg-white space-sm">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 mb-4 mb-sm-0">
+                    <img alt="Image" src="@Model.PosterImage" class="rounded img-fluid" />
+                </div>
+                <!--end of col-->
+                <div class="col-lg-4 d-flex flex-column justify-content-between mr-auto ml-auto">
+                    <div>
+                        <h1 class="mb-2">@Model.Title</h1>
+                        <a class="btn btn-secondary my-2" asp-area="" asp-controller="Anime" asp-action="AnimeGenre" asp-route-id="@Model.Id">Add genre/s to this anime</a>
+                        <!-- List of details -->
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Number of Episodes
+                                <span>@Model.Episodes</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Studio
+                                <span>@Model.Studio</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Status
+                                <span>@Model.Status</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Date Aired
+                                <span>@Model.DateAired.ToString("yyyy-MM-dd")</span>
+                            </li>
+                            <!-- Add more list items as needed -->
+                        </ul>
+                        <h5>Genre/s</h5>
+                        <div class="card-columns">
+                            @if (genres != null && genres.Any())
+                            {
+                                @foreach (var genre in genres)
+                                {
+                                    <div class="card border-light">
+                                        <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                                            <h6 class="card-title m-0">@genre.Name</h6>
+                                            <form method="post" asp-action="RemoveGenresFromAnime" asp-route-animeId="@Model.Id" class="m-0">
+                                                <input type="hidden" name="selectedGenres[]" value="@genre.Id" />
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                    Remove
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="card border-light">
+                                    <div class="card-body p-2">
+                                        <p class="card-text m-0">No genres associated with this anime</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--end of col-->
+</div>
+<!--end of row-->
+        </div>
+<!--end of container-->
+      </section>
+<!--end of section-->
+<section class="space-sm">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-12 col-md-8 col-lg-7">
+                <h5 class="mb-4">Overview</h5>
+                <p class="text-justify" style="max-width: 500px;">
+                    @Model.Description
+                </p>
+                <form method="post" asp-action="Delete" asp-route-id="@Model.Id">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger mt-4 mb-1">
+                        Delete Anime
+                    </button>
+                </form>
+            </div>
+
+        </div>
+        <!--end of col-->
+
+    </div>
+    <!--end of row-->
+    </div>
+    <!--end of container-->
+</section>
